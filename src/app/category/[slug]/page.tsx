@@ -104,7 +104,7 @@ export default async function CategoryPage({ params }: PageProps) {
             href="/blog"
             className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-sans font-medium text-foreground/55 hover:text-primary hover:bg-primary/[0.04] transition-all duration-200 whitespace-nowrap flex-shrink-0"
           >
-            <span aria-hidden="true">✦</span>
+            <span aria-hidden="true"></span>
             All Topics
           </Link>
           {ALL_CATEGORIES.map((cat) => {

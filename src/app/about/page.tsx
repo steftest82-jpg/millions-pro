@@ -77,11 +77,11 @@ export default function AboutPage() {
           {/* Five Pillars */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
             {[
-              { icon: '💰', name: 'Smart Budgeting & Saving', desc: 'Proven frameworks to control spending and grow savings automatically.' },
-              { icon: '📈', name: 'Beginner Investing', desc: 'Low-cost strategies to build wealth from your very first dollar.' },
-              { icon: '🎯', name: 'Debt Management', desc: 'Battle-tested payoff methods for credit cards, loans, and more.' },
-              { icon: '🚀', name: 'Side Hustles & Income', desc: 'Creative ways to earn more money alongside your career.' },
-              { icon: '🧘', name: 'Financial Wellness', desc: 'Balance money goals with mental health and personal values.' },
+              { icon: '', name: 'Smart Budgeting & Saving', desc: 'Proven frameworks to control spending and grow savings automatically.' },
+              { icon: '', name: 'Beginner Investing', desc: 'Low-cost strategies to build wealth from your very first dollar.' },
+              { icon: '', name: 'Debt Management', desc: 'Battle-tested payoff methods for credit cards, loans, and more.' },
+              { icon: '', name: 'Side Hustles & Income', desc: 'Creative ways to earn more money alongside your career.' },
+              { icon: '', name: 'Financial Wellness', desc: 'Balance money goals with mental health and personal values.' },
             ].map((pillar) => (
               <div key={pillar.name} className="bg-background rounded-xl p-5 border border-primary/[0.06]">
                 <span className="text-2xl mb-3 block" aria-hidden="true">{pillar.icon}</span>
@@ -193,17 +193,17 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
-              icon: '🎯',
+              icon: '',
               title: 'Actionable Advice',
               desc: 'Every article includes concrete steps you can implement today. No fluff, no filler, no empty theory — just practical strategies grounded in real-world results.',
             },
             {
-              icon: '🤝',
+              icon: '',
               title: 'Radical Honesty',
               desc: 'We share the full picture, including the challenges and setbacks. Building wealth is a journey with real obstacles, and we keep it transparently real.',
             },
             {
-              icon: '📚',
+              icon: '',
               title: 'Financial Literacy for All',
               desc: 'We believe everyone deserves access to quality financial education, regardless of their income, background, or starting point on the financial journey.',
             },

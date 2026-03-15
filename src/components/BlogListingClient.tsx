@@ -127,7 +127,7 @@ const BlogListingClient: FC<BlogListingClientProps> = ({ posts, categories }) =>
                 : 'bg-white text-foreground/65 border-primary/15 hover:border-primary/30 hover:text-primary'
             }`}
           >
-            <span aria-hidden="true">✦</span>
+            <span aria-hidden="true"></span>
             All Topics
             <span className="ml-1 text-[11px] opacity-60">({posts.length})</span>
           </button>
@@ -200,7 +200,7 @@ const BlogListingClient: FC<BlogListingClientProps> = ({ posts, categories }) =>
         </div>
       ) : (
         <div className="text-center py-20">
-          <p className="text-5xl mb-5" aria-hidden="true">🔍</p>
+          <p className="text-5xl mb-5" aria-hidden="true"></p>
           <h2 className="text-2xl font-bold text-foreground mb-3">No Articles Found</h2>
           <p className="text-foreground/55 mb-6 max-w-md mx-auto">
             {searchQuery

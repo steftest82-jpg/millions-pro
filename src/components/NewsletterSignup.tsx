@@ -30,7 +30,7 @@ const NewsletterSignup: FC = () => {
 
         {submitted ? (
           <div className="bg-white/10 rounded-xl p-6 border border-white/20 animate-fade-in">
-            <p className="text-accent font-semibold font-sans text-lg mb-1">You&apos;re in! 🎉</p>
+            <p className="text-accent font-semibold font-sans text-lg mb-1">You&apos;re in!</p>
             <p className="text-blue-100 text-sm">Thank you for subscribing. Check your inbox for a welcome email.</p>
           </div>
         ) : (

@@ -27,7 +27,7 @@ interface Post {
 
 const FEATURED_POST: Post = {
   slug: 'the-ultimate-guide-to-building-an-emergency-fund',
-  title: 'The Ultimate Guide to Building an Emergency Fund in 2024',
+  title: 'The Ultimate Guide to Building an Emergency Fund in 2026',
   excerpt:
     'An emergency fund is the cornerstone of financial security. Learn exactly how much to save, where to keep your money, and the step-by-step strategy that helped thousands of readers build a 6-month safety net — even on a tight budget.',
   coverImage:
@@ -37,7 +37,7 @@ const FEATURED_POST: Post = {
   category: 'Smart Budgeting and Saving',
   categorySlug: 'smart-budgeting-and-saving',
   author: 'Marine Lafitte',
-  publishedAt: '2024-12-10',
+  publishedAt: '2026-03-10',
   readingTime: 9,
 };
 
@@ -53,7 +53,7 @@ const LATEST_POSTS: Post[] = [
     category: 'Beginner Investing Tips',
     categorySlug: 'beginner-investing-tips',
     author: 'Marine Lafitte',
-    publishedAt: '2024-12-08',
+    publishedAt: '2026-03-08',
     readingTime: 7,
   },
   {
@@ -67,7 +67,7 @@ const LATEST_POSTS: Post[] = [
     category: 'Debt Management',
     categorySlug: 'debt-management',
     author: 'Marine Lafitte',
-    publishedAt: '2024-12-05',
+    publishedAt: '2026-03-05',
     readingTime: 8,
   },
   {
@@ -81,7 +81,7 @@ const LATEST_POSTS: Post[] = [
     category: 'Side Hustles and Income Growth',
     categorySlug: 'side-hustles-and-income-growth',
     author: 'Marine Lafitte',
-    publishedAt: '2024-12-02',
+    publishedAt: '2026-03-02',
     readingTime: 10,
   },
   {
@@ -95,7 +95,7 @@ const LATEST_POSTS: Post[] = [
     category: 'Smart Budgeting and Saving',
     categorySlug: 'smart-budgeting-and-saving',
     author: 'Marine Lafitte',
-    publishedAt: '2024-11-28',
+    publishedAt: '2026-02-28',
     readingTime: 6,
   },
   {
@@ -109,7 +109,7 @@ const LATEST_POSTS: Post[] = [
     category: 'Financial Wellness',
     categorySlug: 'financial-wellness',
     author: 'Marine Lafitte',
-    publishedAt: '2024-11-25',
+    publishedAt: '2026-02-25',
     readingTime: 7,
   },
   {
@@ -123,18 +123,18 @@ const LATEST_POSTS: Post[] = [
     category: 'Beginner Investing Tips',
     categorySlug: 'beginner-investing-tips',
     author: 'Marine Lafitte',
-    publishedAt: '2024-11-22',
+    publishedAt: '2026-02-22',
     readingTime: 8,
   },
 ];
 
 const CATEGORIES = [
-  { name: 'All Topics', slug: 'all', icon: '✦' },
-  { name: 'Budgeting & Saving', slug: 'smart-budgeting-and-saving', icon: '💰' },
-  { name: 'Investing Tips', slug: 'beginner-investing-tips', icon: '📈' },
-  { name: 'Debt Management', slug: 'debt-management', icon: '🎯' },
-  { name: 'Side Hustles', slug: 'side-hustles-and-income-growth', icon: '🚀' },
-  { name: 'Financial Wellness', slug: 'financial-wellness', icon: '🧘' },
+  { name: 'All Topics', slug: 'all', icon: '' },
+  { name: 'Budgeting & Saving', slug: 'smart-budgeting-and-saving', icon: '' },
+  { name: 'Investing Tips', slug: 'beginner-investing-tips', icon: '' },
+  { name: 'Debt Management', slug: 'debt-management', icon: '' },
+  { name: 'Side Hustles', slug: 'side-hustles-and-income-growth', icon: '' },
+  { name: 'Financial Wellness', slug: 'financial-wellness', icon: '' },
 ];
 
 /* ---------- helper ---------- */
@@ -374,7 +374,7 @@ export default function HomePage() {
             {
               name: 'Smart Budgeting and Saving',
               slug: 'smart-budgeting-and-saving',
-              icon: '💰',
+              icon: '',
               color: 'from-emerald-500/10 to-emerald-500/[0.02]',
               borderColor: 'hover:border-emerald-300/40',
               description: 'Master the art of budgeting with frameworks like the 50/30/20 rule, automate your savings, and build an unshakeable financial foundation.',
@@ -383,7 +383,7 @@ export default function HomePage() {
             {
               name: 'Beginner Investing Tips',
               slug: 'beginner-investing-tips',
-              icon: '📈',
+              icon: '',
               color: 'from-blue-500/10 to-blue-500/[0.02]',
               borderColor: 'hover:border-blue-300/40',
               description: 'Start investing with confidence. From index funds and ETFs to retirement accounts, learn how to grow your money even with small amounts.',
@@ -392,7 +392,7 @@ export default function HomePage() {
             {
               name: 'Debt Management',
               slug: 'debt-management',
-              icon: '🎯',
+              icon: '',
               color: 'from-amber-500/10 to-amber-500/[0.02]',
               borderColor: 'hover:border-amber-300/40',
               description: 'Take control of debt with proven payoff strategies, refinancing guides, and the motivation you need to reach financial freedom.',
@@ -401,7 +401,7 @@ export default function HomePage() {
             {
               name: 'Side Hustles and Income Growth',
               slug: 'side-hustles-and-income-growth',
-              icon: '🚀',
+              icon: '',
               color: 'from-violet-500/10 to-violet-500/[0.02]',
               borderColor: 'hover:border-violet-300/40',
               description: 'Discover profitable side hustles, freelance tips, and creative ways to earn more money alongside your 9-to-5 career.',
@@ -410,7 +410,7 @@ export default function HomePage() {
             {
               name: 'Financial Wellness',
               slug: 'financial-wellness',
-              icon: '🧘',
+              icon: '',
               color: 'from-rose-500/10 to-rose-500/[0.02]',
               borderColor: 'hover:border-rose-300/40',
               description: 'Achieve balance between money goals and mental well-being. Overcome anxiety, build healthy habits, and align spending with your values.',

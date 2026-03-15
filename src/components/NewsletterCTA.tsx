@@ -75,7 +75,7 @@ const NewsletterCTA: FC = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
             </div>
-            <p className="text-accent font-sans font-bold text-lg mb-1">You&apos;re in! 🎉</p>
+            <p className="text-accent font-sans font-bold text-lg mb-1">You&apos;re in!</p>
             <p className="text-blue-100/60 text-sm">
               Welcome to the Millions Pro community. Check your inbox for a confirmation email with our best articles to get you started.
             </p>

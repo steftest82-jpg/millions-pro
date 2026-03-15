@@ -12,11 +12,11 @@ const MAIN_NAV = [
 ];
 
 const CATEGORY_NAV = [
-  { href: '/category/smart-budgeting-and-saving', label: 'Budgeting & Saving', icon: '💰' },
-  { href: '/category/beginner-investing-tips', label: 'Investing Tips', icon: '📈' },
-  { href: '/category/debt-management', label: 'Debt Management', icon: '🎯' },
-  { href: '/category/side-hustles-and-income-growth', label: 'Side Hustles', icon: '🚀' },
-  { href: '/category/financial-wellness', label: 'Financial Wellness', icon: '🧘' },
+  { href: '/category/smart-budgeting-and-saving', label: 'Budgeting & Saving', icon: '' },
+  { href: '/category/beginner-investing-tips', label: 'Investing Tips', icon: '' },
+  { href: '/category/debt-management', label: 'Debt Management', icon: '' },
+  { href: '/category/side-hustles-and-income-growth', label: 'Side Hustles', icon: '' },
+  { href: '/category/financial-wellness', label: 'Financial Wellness', icon: '' },
 ];
 
 const Header: FC = () => {

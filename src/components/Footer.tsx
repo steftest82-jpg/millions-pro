@@ -41,7 +41,7 @@ const Footer: FC = () => {
             {/* Footer Newsletter Signup */}
             {subscribed ? (
               <div className="rounded-xl bg-white/[0.07] border border-white/10 p-4 animate-scale-in">
-                <p className="text-accent font-sans font-semibold text-sm mb-0.5">You&apos;re in! 🎉</p>
+                <p className="text-accent font-sans font-semibold text-sm mb-0.5">You&apos;re in!</p>
                 <p className="text-blue-200/60 text-xs">Check your inbox for a welcome email.</p>
               </div>
             ) : (

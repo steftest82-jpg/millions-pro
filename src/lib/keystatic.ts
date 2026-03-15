@@ -40,31 +40,31 @@ export const ALL_CATEGORIES: { slug: string; name: string; icon: string; descrip
   {
     slug: 'smart-budgeting-and-saving',
     name: 'Smart Budgeting and Saving',
-    icon: '💰',
+    icon: '',
     description: 'Master the art of budgeting with proven frameworks, automate your savings, and build an unshakeable financial foundation for lasting wealth.',
   },
   {
     slug: 'beginner-investing-tips',
     name: 'Beginner Investing Tips',
-    icon: '📈',
+    icon: '',
     description: 'Start investing with confidence. From index funds and ETFs to retirement accounts, learn how to grow your money even with small amounts.',
   },
   {
     slug: 'debt-management',
     name: 'Debt Management',
-    icon: '🎯',
+    icon: '',
     description: 'Take control of debt with proven payoff strategies like the snowball and avalanche methods, refinancing guides, and expert financial advice.',
   },
   {
     slug: 'side-hustles-and-income-growth',
     name: 'Side Hustles and Income Growth',
-    icon: '🚀',
+    icon: '',
     description: 'Discover profitable side hustles, freelance tips, and creative ways to earn more money alongside your 9-to-5 career.',
   },
   {
     slug: 'financial-wellness',
     name: 'Financial Wellness',
-    icon: '🧘',
+    icon: '',
     description: 'Achieve balance between money goals and mental well-being. Overcome anxiety, build healthy habits, and align spending with your values.',
   },
 ];
@@ -125,7 +125,7 @@ export async function getAllPosts(): Promise<Post[]> {
         const post: Post = {
           title: (data.title as string) || slug,
           slug,
-          publishedAt: (data.publishedAt as string) || '2024-01-01',
+          publishedAt: (data.publishedAt as string) || '2026-01-01',
           excerpt: (data.excerpt as string) || '',
           coverImage: (data.coverImage as string) || 'https://picsum.photos/seed/default/1200/630',
           coverImageAlt: (data.coverImageAlt as string) || (data.title as string) || 'Blog post cover image',
