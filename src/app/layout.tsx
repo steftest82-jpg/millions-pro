@@ -45,7 +45,7 @@ export const metadata: Metadata = {
       'Practical personal finance tips for everyday professionals. Smart budgeting, investing, debt management, and income growth strategies by Marine Lafitte.',
     images: [
       {
-        url: 'http://img.b2bpic.net/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg',
+        url: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&h=630&fit=crop',
         width: 1200,
         height: 630,
         alt: 'Millions Pro — Personal Finance Magazine',
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     description:
       'Your Daily Finance Magazine. Practical budgeting, investing, and wealth-building tips for everyday professionals.',
     images: [
-      'http://img.b2bpic.net/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg',
+      'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&h=630&fit=crop',
     ],
   },
   robots: {
@@ -104,8 +104,8 @@ export default function RootLayout({
           </>
         )}
         {/* Preconnect to image host */}
-        <link rel="preconnect" href="http://img.b2bpic.net" />
-        <link rel="dns-prefetch" href="http://img.b2bpic.net" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
         {/* RSS Autodiscovery */}
         <link
           rel="alternate"

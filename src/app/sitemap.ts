@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { getAllPosts, ALL_CATEGORIES } from '@/lib/keystatic'
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://millionspro.com'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.millionspro.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
@@ -46,6 +46,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(post.publishedAt),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
+    images: post.coverImage ? [post.coverImage] : [],
   }))
 
   return [...staticPages, ...categoryPages, ...postPages]

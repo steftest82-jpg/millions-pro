@@ -8,7 +8,7 @@ const AuthorBio: FC = () => {
       <div className="flex flex-col sm:flex-row items-start gap-5">
         <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0 ring-4 ring-primary/20">
           <Image
-            src="http://img.b2bpic.net/premium-photo/business-woman-meeting-portrait-office-with-collaboration-teamwork-career-confidence-professional-financial-consultant-consulting-staff-with-smile-happy-from-finance-advice-job_590464-408953.jpg"
+            src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop&crop=face"
             alt="Marine Lafitte, Lead Author at Millions Pro"
             width={80}
             height={80}

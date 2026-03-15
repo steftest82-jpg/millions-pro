@@ -27,7 +27,7 @@ const SAMPLE_POSTS: PostFrontmatter[] = [
     author: 'Marine Lafitte',
     focusKeyword: 'personal finance tips',
     excerpt: 'From automating your savings to understanding compound interest, these ten personal finance tips will transform how you manage money and build lasting wealth.',
-    coverImage: 'http://img.b2bpic.net/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg',
+    coverImage: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=450&fit=crop',
     coverImageAlt: 'Abstract texture representing solid financial foundation',
     categories: ['smart-budgeting-and-saving', 'financial-wellness'],
     keyTakeaways: [
@@ -52,7 +52,7 @@ const SAMPLE_POSTS: PostFrontmatter[] = [
     author: 'Marine Lafitte',
     focusKeyword: 'beginner investing',
     excerpt: 'You do not need thousands to start investing. This step-by-step guide shows you how to begin building a portfolio with as little as $50 per month using low-cost index funds and robo-advisors.',
-    coverImage: 'http://img.b2bpic.net/free-photo/paper-texture_1194-5999.jpg',
+    coverImage: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=450&fit=crop',
     coverImageAlt: 'Clean paper texture representing a fresh start in investing',
     categories: ['beginner-investing-tips'],
     keyTakeaways: [
@@ -76,7 +76,7 @@ const SAMPLE_POSTS: PostFrontmatter[] = [
     author: 'Marine Lafitte',
     focusKeyword: 'debt snowball method',
     excerpt: 'Learn how the debt snowball method can help you eliminate debt faster by focusing on quick wins and building unstoppable momentum toward financial freedom.',
-    coverImage: 'http://img.b2bpic.net/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg',
+    coverImage: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=450&fit=crop',
     coverImageAlt: 'Textured wall symbolizing building blocks of debt freedom',
     categories: ['debt-management'],
     keyTakeaways: [
@@ -100,7 +100,7 @@ const SAMPLE_POSTS: PostFrontmatter[] = [
     author: 'Marine Lafitte',
     focusKeyword: 'profitable side hustles',
     excerpt: 'Looking to boost your income? Here are 15 proven side hustles you can launch this weekend — from freelancing and e-commerce to content creation and consulting.',
-    coverImage: 'http://img.b2bpic.net/free-photo/paper-texture_1194-5999.jpg',
+    coverImage: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=450&fit=crop',
     coverImageAlt: 'Paper texture representing the blank canvas of new income opportunities',
     categories: ['side-hustles-and-income-growth'],
     keyTakeaways: [
@@ -124,7 +124,7 @@ const SAMPLE_POSTS: PostFrontmatter[] = [
     author: 'Marine Lafitte',
     focusKeyword: 'financial wellness',
     excerpt: 'Financial wellness is about more than numbers. Discover how to overcome money anxiety, develop healthy financial habits, and align your spending with your values.',
-    coverImage: 'http://img.b2bpic.net/premium-photo/happy-business-man-arms-crossed-portrait-corporate-board-room-with-professional-worker-success-company-african-male-manager-office-workplace-with-smile-startup-vision_590464-201371.jpg',
+    coverImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop',
     coverImageAlt: 'Confident professional representing financial empowerment',
     categories: ['financial-wellness'],
     keyTakeaways: [
@@ -148,7 +148,7 @@ const SAMPLE_POSTS: PostFrontmatter[] = [
     author: 'Marine Lafitte',
     focusKeyword: 'budgeting tips',
     excerpt: 'The 50/30/20 rule is one of the simplest budgeting frameworks. Learn how to divide your income into needs, wants, and savings for stress-free money management.',
-    coverImage: 'http://img.b2bpic.net/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg',
+    coverImage: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=450&fit=crop',
     coverImageAlt: 'Clean textured surface representing structured financial planning',
     categories: ['smart-budgeting-and-saving'],
     keyTakeaways: [

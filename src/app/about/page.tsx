@@ -12,7 +12,7 @@ export const metadata: Metadata = {
       'Millions Pro is a personal finance resource founded by Marine Lafitte. Free, actionable guides on budgeting, investing, debt payoff, and income growth for everyday professionals.',
     images: [
       {
-        url: 'http://img.b2bpic.net/premium-photo/business-woman-meeting-portrait-office-with-collaboration-teamwork-career-confidence-professional-financial-consultant-consulting-staff-with-smile-happy-from-finance-advice-job_590464-408953.jpg',
+        url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop&crop=face',
         width: 1200,
         height: 630,
         alt: 'Marine Lafitte — Founder and Lead Author at Millions Pro',
@@ -169,7 +169,7 @@ export default function AboutPage() {
               <div className="md:w-2/5 relative">
                 <div className="aspect-[3/4] md:aspect-auto md:h-full relative">
                   <Image
-                    src="http://img.b2bpic.net/premium-photo/business-woman-meeting-portrait-office-with-collaboration-teamwork-career-confidence-professional-financial-consultant-consulting-staff-with-smile-happy-from-finance-advice-job_590464-408953.jpg"
+                    src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop&crop=face"
                     alt="Marine Lafitte — Founder and Lead Personal Finance Writer at Millions Pro"
                     fill
                     className="object-cover"

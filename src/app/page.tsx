@@ -76,6 +76,11 @@ export default async function HomePage() {
   /* Latest 6 articles (skip the hero post) */
   const latestPosts = allPosts.filter((p) => p.slug !== heroPost?.slug).slice(0, 6);
 
+  /* Track slugs already shown in hero + latest to avoid duplicates in category sections */
+  const shownSlugs = new Set<string>();
+  if (heroPost) shownSlugs.add(heroPost.slug);
+  latestPosts.forEach((p) => shownSlugs.add(p.slug));
+
   return (
     <>
       {/* ============================================================
@@ -287,8 +292,11 @@ export default async function HomePage() {
           CATEGORY SECTIONS (5 categories, up to 10 articles each)
           ============================================================ */}
       {ALL_CATEGORIES.map((cat) => {
-        const posts = categoryPostsMap[cat.slug] || [];
+        const posts = (categoryPostsMap[cat.slug] || []).filter((p) => !shownSlugs.has(p.slug));
         if (posts.length === 0) return null;
+
+        /* Mark these as shown so later categories don't repeat them either */
+        posts.forEach((p) => shownSlugs.add(p.slug));
 
         const featured = posts[0];
         const remaining = posts.slice(1);
