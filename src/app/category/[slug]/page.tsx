@@ -22,12 +22,12 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const category = getCategoryBySlug(params.slug);
   if (!category) {
-    return { title: 'Category Not Found | Millions Pro' };
+    return { title: 'Category Not Found' };
   }
 
   return {
-    title: `${category.name} — Expert Personal Finance Tips`,
-    description: category.description,
+    title: category.name,
+    description: `${category.description.slice(0, 155)}`,
     openGraph: {
       title: `${category.name} | Millions Pro`,
       description: category.description,

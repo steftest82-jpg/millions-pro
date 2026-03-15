@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
 
 export const metadata: Metadata = {
-  title: 'Contact Millions Pro',
-  description: 'Get in touch with the Millions Pro team. Questions about personal finance tips, collaboration inquiries, or feedback — we would love to hear from you.',
+  title: 'Contact Us',
+  description: 'Get in touch with the Millions Pro team. Questions about personal finance, collaboration inquiries, or feedback — we respond to every message.',
 };
 
 export default function ContactPage() {

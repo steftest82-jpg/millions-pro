@@ -5,11 +5,11 @@ import PostCard from '@/components/PostCard';
 import BlogListingClient from '@/components/BlogListingClient';
 
 export const metadata: Metadata = {
-  title: 'Blog — Personal Finance Tips, Investing Guides & Money Management',
+  title: 'Blog — Finance Tips, Investing Guides & Money Management',
   description:
-    'Browse all articles on Millions Pro. Expert personal finance tips covering smart budgeting strategies, beginner investing, debt management, profitable side hustles, and financial wellness by Marine Lafitte.',
+    'Browse all articles on Millions Pro covering smart budgeting strategies, beginner investing, debt management, profitable side hustles, and financial wellness.',
   openGraph: {
-    title: 'Millions Pro Blog — All Articles',
+    title: 'Blog — Finance Tips, Investing Guides & Money Management | Millions Pro',
     description:
       'Actionable personal finance tips, investing strategies, and money management advice for everyday professionals.',
   },

@@ -1,37 +1,11 @@
 import type { MetadataRoute } from 'next'
+import { getAllPosts, ALL_CATEGORIES } from '@/lib/keystatic'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://millionspro.com'
 
-const categories = [
-  {
-    slug: 'smart-budgeting-and-saving',
-    name: 'Smart Budgeting and Saving',
-    priority: 0.8,
-  },
-  {
-    slug: 'beginner-investing-tips',
-    name: 'Beginner Investing Tips',
-    priority: 0.8,
-  },
-  {
-    slug: 'debt-management',
-    name: 'Debt Management',
-    priority: 0.8,
-  },
-  {
-    slug: 'side-hustles-and-income-growth',
-    name: 'Side Hustles and Income Growth',
-    priority: 0.8,
-  },
-  {
-    slug: 'financial-wellness',
-    name: 'Financial Wellness',
-    priority: 0.8,
-  },
-]
-
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
+  const posts = await getAllPosts()
 
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -46,14 +20,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'daily',
       priority: 0.9,
     },
+    {
+      url: `${BASE_URL}/about`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/contact`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
   ]
 
-  const categoryPages: MetadataRoute.Sitemap = categories.map((category) => ({
-    url: `${BASE_URL}/blog/category/${category.slug}`,
+  const categoryPages: MetadataRoute.Sitemap = ALL_CATEGORIES.map((category) => ({
+    url: `${BASE_URL}/category/${category.slug}`,
     lastModified: now,
     changeFrequency: 'weekly' as const,
-    priority: category.priority,
+    priority: 0.8,
   }))
 
-  return [...staticPages, ...categoryPages]
+  const postPages: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `${BASE_URL}/blog/${post.slug}`,
+    lastModified: new Date(post.publishedAt),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  return [...staticPages, ...categoryPages, ...postPages]
 }
