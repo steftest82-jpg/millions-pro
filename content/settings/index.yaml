@@ -1,0 +1,40 @@
+# Millions Pro — Site Settings Reference
+# ==========================================
+#
+# This file serves as a reference index for all site settings.
+# Actual settings are managed via the Keystatic CMS dashboard at /keystatic
+# and stored in the JSON files alongside this reference.
+#
+# Settings Files:
+# ---------------
+# content/settings/site.json       — Core site settings (name, tagline, author, socials, analytics)
+# content/settings/navigation.json — Header navigation items and CTA configuration
+#
+# Blog Posts:
+# -----------
+# content/posts/*.mdx              — Individual blog posts with MDX content and YAML frontmatter
+#
+# Categories (defined in keystatic.config.ts):
+# --------------------------------------------
+# smart-budgeting-and-saving       — Smart Budgeting and Saving
+# beginner-investing-tips          — Beginner Investing Tips
+# debt-management                  — Debt Management
+# side-hustles-and-income-growth   — Side Hustles and Income Growth
+# financial-wellness               — Financial Wellness
+#
+# Lead Author:
+# ------------
+# Marine Lafitte — info@millionspro.com
+#
+# CMS Access:
+# -----------
+# Dashboard: /keystatic
+# API Route: /api/keystatic
+# Storage:   GitHub (placeholder/placeholder)
+#
+# ==========================================
+
+version: 1
+lastUpdated: 2024-12-15
+managedBy: keystatic
+repository: placeholder/placeholder

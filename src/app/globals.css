@@ -1,0 +1,444 @@
+/* ===================================================================
+   Millions Pro — Global Styles
+   Your Daily Finance Magazine for Smart Money Moves
+   =================================================================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===================================================================
+   BASE LAYER — Foundation Styles
+   =================================================================== */
+
+@layer base {
+  /* Smooth scroll for anchor links */
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Body defaults — classic serif, sky-light background */
+  body {
+    @apply bg-background text-foreground font-serif antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Headings inherit serif family */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif text-foreground;
+    text-wrap: balance;
+  }
+
+  /* Selection color using accent palette */
+  ::selection {
+    background-color: rgba(56, 189, 248, 0.25);
+    color: #0C4A6E;
+  }
+
+  ::-moz-selection {
+    background-color: rgba(56, 189, 248, 0.25);
+    color: #0C4A6E;
+  }
+
+  /* Focus visible for keyboard accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  /* Smooth transitions on interactive elements */
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    @apply transition-colors duration-200;
+  }
+
+  /* Scrollbar styling for WebKit browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #F0F9FF;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(14, 165, 233, 0.25);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(14, 165, 233, 0.45);
+  }
+}
+
+/* ===================================================================
+   COMPONENTS LAYER — Reusable Component Styles
+   =================================================================== */
+
+@layer components {
+  /* ---------------------------------------------------------------
+     PROSE CUSTOM — Article Content Typography
+     Applied to blog post body content via .prose-custom class
+     --------------------------------------------------------------- */
+
+  .prose-custom {
+    @apply text-foreground/90 leading-relaxed;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  /* Headings */
+  .prose-custom h1 {
+    @apply text-3xl sm:text-4xl font-bold text-foreground mt-12 mb-6 font-serif;
+    line-height: 1.2;
+  }
+
+  .prose-custom h2 {
+    @apply text-2xl sm:text-[1.625rem] font-bold text-foreground mt-12 mb-5 pb-3 border-b border-primary/15 font-serif;
+    line-height: 1.25;
+  }
+
+  .prose-custom h3 {
+    @apply text-xl sm:text-[1.375rem] font-semibold text-foreground mt-10 mb-4 font-serif;
+    line-height: 1.3;
+  }
+
+  .prose-custom h4 {
+    @apply text-lg font-semibold text-foreground mt-8 mb-3 font-serif;
+    line-height: 1.35;
+  }
+
+  /* Paragraphs */
+  .prose-custom p {
+    @apply text-foreground/85 mb-6;
+    line-height: 1.8;
+  }
+
+  .prose-custom p:first-of-type {
+    @apply text-lg text-foreground/90;
+    line-height: 1.75;
+  }
+
+  /* Links */
+  .prose-custom a {
+    @apply text-secondary font-medium underline underline-offset-[3px] decoration-secondary/30 hover:text-primary hover:decoration-primary transition-all duration-200;
+  }
+
+  /* Lists */
+  .prose-custom ul {
+    @apply list-none pl-0 mb-6 space-y-3;
+  }
+
+  .prose-custom ul li {
+    @apply text-foreground/85 pl-7 relative;
+    line-height: 1.7;
+  }
+
+  .prose-custom ul li::before {
+    content: '';
+    @apply absolute left-0 top-[0.6em] w-2 h-2 rounded-full bg-primary/50;
+  }
+
+  .prose-custom ol {
+    @apply list-none pl-0 mb-6 space-y-3;
+    counter-reset: custom-counter;
+  }
+
+  .prose-custom ol li {
+    @apply text-foreground/85 pl-9 relative;
+    counter-increment: custom-counter;
+    line-height: 1.7;
+  }
+
+  .prose-custom ol li::before {
+    content: counter(custom-counter);
+    @apply absolute left-0 top-[0.15em] w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-sans font-bold flex items-center justify-center;
+  }
+
+  /* Blockquotes */
+  .prose-custom blockquote {
+    @apply border-l-4 border-primary pl-6 pr-4 py-4 my-8 bg-primary/[0.03] rounded-r-lg;
+  }
+
+  .prose-custom blockquote p {
+    @apply italic text-foreground/75 mb-0 text-base;
+    line-height: 1.7;
+  }
+
+  .prose-custom blockquote cite {
+    @apply block mt-3 text-sm font-sans font-medium text-secondary not-italic;
+  }
+
+  /* Inline code */
+  .prose-custom code {
+    @apply bg-primary/[0.07] text-secondary px-1.5 py-0.5 rounded text-[0.9em] font-sans font-medium;
+  }
+
+  /* Code blocks */
+  .prose-custom pre {
+    @apply bg-foreground text-background p-6 rounded-xl overflow-x-auto mb-8 border border-primary/10 shadow-soft;
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .prose-custom pre code {
+    @apply bg-transparent text-background p-0 text-sm font-normal;
+  }
+
+  /* Images */
+  .prose-custom img {
+    @apply rounded-xl shadow-soft-lg my-8 w-full;
+  }
+
+  .prose-custom figure {
+    @apply my-10;
+  }
+
+  .prose-custom figcaption {
+    @apply text-center text-sm text-secondary/80 mt-3 font-sans;
+  }
+
+  /* Horizontal rules */
+  .prose-custom hr {
+    @apply my-10 border-t border-primary/15;
+  }
+
+  /* Tables */
+  .prose-custom table {
+    @apply w-full mb-8 text-sm border-collapse;
+  }
+
+  .prose-custom thead {
+    @apply bg-primary/[0.05];
+  }
+
+  .prose-custom thead th {
+    @apply px-4 py-3 text-left font-sans font-semibold text-foreground text-sm border-b-2 border-primary/15;
+  }
+
+  .prose-custom tbody td {
+    @apply px-4 py-3 border-b border-primary/[0.07] text-foreground/80;
+  }
+
+  .prose-custom tbody tr:hover {
+    @apply bg-primary/[0.02];
+  }
+
+  /* Bold & italic */
+  .prose-custom strong {
+    @apply text-foreground font-bold;
+  }
+
+  .prose-custom em {
+    @apply italic;
+  }
+
+  /* Definition lists & details */
+  .prose-custom details {
+    @apply mb-6 bg-white rounded-xl border border-primary/10 overflow-hidden;
+  }
+
+  .prose-custom summary {
+    @apply px-5 py-4 font-sans font-semibold text-foreground cursor-pointer hover:bg-primary/[0.03] transition-colors duration-200 select-none;
+  }
+
+  .prose-custom details[open] summary {
+    @apply border-b border-primary/10;
+  }
+
+  .prose-custom details > *:not(summary) {
+    @apply px-5 py-4;
+  }
+
+  /* ---------------------------------------------------------------
+     CALLOUT BOXES — For tips, warnings, notes in articles
+     --------------------------------------------------------------- */
+
+  .callout {
+    @apply rounded-xl p-5 my-8 border;
+  }
+
+  .callout-tip {
+    @apply bg-green-50/70 border-green-200/60 text-green-900;
+  }
+
+  .callout-warning {
+    @apply bg-amber-50/70 border-amber-200/60 text-amber-900;
+  }
+
+  .callout-info {
+    @apply bg-primary/[0.05] border-primary/15 text-foreground;
+  }
+
+  .callout-important {
+    @apply bg-red-50/70 border-red-200/60 text-red-900;
+  }
+
+  .callout p:last-child {
+    @apply mb-0;
+  }
+
+  /* ---------------------------------------------------------------
+     BUTTON STYLES
+     --------------------------------------------------------------- */
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-sans font-semibold rounded-lg hover:bg-secondary focus:ring-2 focus:ring-primary/30 focus:ring-offset-2 transition-all duration-300 shadow-soft hover:shadow-soft-lg;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-white text-foreground font-sans font-semibold rounded-lg border border-primary/20 hover:border-primary/40 hover:bg-primary/[0.03] focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 transition-all duration-300;
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-accent text-foreground font-sans font-semibold rounded-lg hover:bg-white hover:text-foreground focus:ring-2 focus:ring-accent/30 focus:ring-offset-2 transition-all duration-300 shadow-soft hover:shadow-soft-lg;
+  }
+
+  /* ---------------------------------------------------------------
+     CARD STYLES
+     --------------------------------------------------------------- */
+
+  .card {
+    @apply bg-white rounded-xl border border-primary/10 overflow-hidden transition-all duration-300;
+  }
+
+  .card:hover {
+    @apply border-primary/20 shadow-soft-lg;
+  }
+
+  /* ---------------------------------------------------------------
+     BADGE / TAG STYLES
+     --------------------------------------------------------------- */
+
+  .badge {
+    @apply inline-flex items-center text-xs font-sans font-medium px-3 py-1 rounded-full;
+  }
+
+  .badge-primary {
+    @apply bg-primary/10 text-primary;
+  }
+
+  .badge-secondary {
+    @apply bg-secondary/10 text-secondary;
+  }
+
+  .badge-accent {
+    @apply bg-accent/15 text-foreground;
+  }
+
+  /* ---------------------------------------------------------------
+     FORM INPUT STYLES
+     --------------------------------------------------------------- */
+
+  .input {
+    @apply w-full px-4 py-3 rounded-lg border border-primary/15 bg-background text-foreground placeholder:text-foreground/30 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary font-sans text-sm transition-all duration-200;
+  }
+
+  .input:hover {
+    @apply border-primary/25;
+  }
+}
+
+/* ===================================================================
+   UTILITIES LAYER — Custom Utility Classes
+   =================================================================== */
+
+@layer utilities {
+  /* Text balance for headings */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Readable line length for body text */
+  .max-w-prose-custom {
+    max-width: 68ch;
+  }
+
+  /* Gradient text utility */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  }
+
+  /* Hide scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Glass morphism effect */
+  .glass {
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    background-color: rgba(240, 249, 255, 0.75);
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Aspect ratio utilities */
+  .aspect-article {
+    aspect-ratio: 16 / 10;
+  }
+
+  .aspect-hero {
+    aspect-ratio: 21 / 9;
+  }
+
+  .aspect-card {
+    aspect-ratio: 3 / 2;
+  }
+
+  /* Animation delays for staggered entrances */
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+}
