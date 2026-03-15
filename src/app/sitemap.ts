@@ -46,7 +46,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(post.publishedAt),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
-    images: post.coverImage ? [post.coverImage] : [],
+    ...(post.coverImage
+      ? { images: [post.coverImage] }
+      : {}),
   }))
 
   return [...staticPages, ...categoryPages, ...postPages]

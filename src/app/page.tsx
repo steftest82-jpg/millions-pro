@@ -81,6 +81,14 @@ export default async function HomePage() {
   if (heroPost) shownSlugs.add(heroPost.slug);
   latestPosts.forEach((p) => shownSlugs.add(p.slug));
 
+  /* Pre-compute deduplicated category posts so JSX doesn't mutate state during render */
+  const dedupedCategoryPosts: Record<string, Awaited<ReturnType<typeof getPostsByCategory>>> = {};
+  for (const cat of ALL_CATEGORIES) {
+    const posts = (categoryPostsMap[cat.slug] || []).filter((p) => !shownSlugs.has(p.slug));
+    posts.forEach((p) => shownSlugs.add(p.slug));
+    dedupedCategoryPosts[cat.slug] = posts;
+  }
+
   return (
     <>
       {/* ============================================================
@@ -292,11 +300,8 @@ export default async function HomePage() {
           CATEGORY SECTIONS (5 categories, up to 10 articles each)
           ============================================================ */}
       {ALL_CATEGORIES.map((cat) => {
-        const posts = (categoryPostsMap[cat.slug] || []).filter((p) => !shownSlugs.has(p.slug));
+        const posts = dedupedCategoryPosts[cat.slug] || [];
         if (posts.length === 0) return null;
-
-        /* Mark these as shown so later categories don't repeat them either */
-        posts.forEach((p) => shownSlugs.add(p.slug));
 
         const featured = posts[0];
         const remaining = posts.slice(1);

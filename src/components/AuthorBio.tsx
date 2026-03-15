@@ -8,7 +8,7 @@ const AuthorBio: FC = () => {
       <div className="flex flex-col sm:flex-row items-start gap-5">
         <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0 ring-4 ring-primary/20">
           <Image
-            src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop&crop=face"
+            src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=face"
             alt="Marine Lafitte, Lead Author at Millions Pro"
             width={80}
             height={80}
