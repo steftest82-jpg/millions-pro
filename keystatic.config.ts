@@ -3,7 +3,7 @@ import { config, fields, collection, singleton } from '@keystatic/core';
 export default config({
   storage: {
     kind: 'github',
-    repo: 'placeholder/placeholder',
+    repo: 'steftest82-jpg/millions-pro',
   },
   ui: {
     brand: {
