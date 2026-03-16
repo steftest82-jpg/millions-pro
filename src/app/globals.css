@@ -61,6 +61,17 @@
     @apply transition-colors duration-200;
   }
 
+  /* Mobile touch targets — ensure minimum 44px hit areas */
+  @media (max-width: 768px) {
+    a, button {
+      min-height: 44px;
+    }
+    /* Prevent iOS zoom on input focus */
+    input, select, textarea {
+      font-size: 16px;
+    }
+  }
+
   /* Scrollbar styling for WebKit browsers */
   ::-webkit-scrollbar {
     width: 8px;

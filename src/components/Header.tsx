@@ -200,12 +200,12 @@ const Header: FC = () => {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-foreground/30 backdrop-blur-sm z-40 lg:hidden animate-fade-in"
+            className="fixed inset-0 bg-foreground/30 backdrop-blur-sm z-[60] lg:hidden animate-fade-in"
             onClick={closeMobile}
             aria-hidden="true"
           />
           {/* Panel */}
-          <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl z-50 lg:hidden animate-slide-in-right overflow-y-auto">
+          <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl z-[70] lg:hidden animate-slide-in-right overflow-y-auto">
             <div className="flex items-center justify-between px-5 py-4 border-b border-primary/10">
               <Link href="/" className="flex items-center gap-2" onClick={closeMobile}>
                 <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">

@@ -113,6 +113,41 @@ export default function RootLayout({
           title="Millions Pro RSS Feed"
           href="/api/rss"
         />
+        {/* JSON-LD Organization + WebSite schema for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'Organization',
+                  '@id': 'https://www.millionspro.com/#organization',
+                  name: 'Millions Pro',
+                  url: 'https://www.millionspro.com',
+                  logo: {
+                    '@type': 'ImageObject',
+                    url: 'https://www.millionspro.com/icon.png',
+                  },
+                  sameAs: [],
+                  description: 'Your Daily Finance Magazine for Smart Money Moves. Practical personal finance tips, investing guides, and wealth-building strategies.',
+                },
+                {
+                  '@type': 'WebSite',
+                  '@id': 'https://www.millionspro.com/#website',
+                  url: 'https://www.millionspro.com',
+                  name: 'Millions Pro',
+                  publisher: { '@id': 'https://www.millionspro.com/#organization' },
+                  potentialAction: {
+                    '@type': 'SearchAction',
+                    target: 'https://www.millionspro.com/blog?q={search_term_string}',
+                    'query-input': 'required name=search_term_string',
+                  },
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       <body className="min-h-screen flex flex-col bg-background text-foreground font-serif antialiased">
         {/* Skip to content link for accessibility */}

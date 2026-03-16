@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     description:
       'Actionable personal finance tips, investing strategies, and money management advice for everyday professionals.',
   },
+  alternates: {
+    canonical: '/blog',
+  },
 };
 
 export default async function BlogListingPage() {

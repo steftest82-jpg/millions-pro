@@ -62,6 +62,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: post.excerpt,
       images: [post.coverImage],
     },
+    alternates: {
+      canonical: `/blog/${params.slug}`,
+    },
   };
 }
 
@@ -87,22 +90,33 @@ export default async function BlogPostPage({ params }: PageProps) {
     author: {
       '@type': 'Person',
       name: post.author,
-      url: 'https://millionspro.com/about',
+      url: 'https://www.millionspro.com/about',
     },
     publisher: {
       '@type': 'Organization',
       name: 'Millions Pro',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://millionspro.com/logo.png',
+        url: 'https://www.millionspro.com/icon.png',
       },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://millionspro.com/blog/${post.slug}`,
+      '@id': `https://www.millionspro.com/blog/${post.slug}`,
     },
     wordCount: post.content.replace(/<[^>]*>/g, '').split(/\s+/).filter(Boolean).length,
     keywords: [post.focusKeyword, ...post.categories.map((c) => formatCategoryName(c))].join(', '),
+    isPartOf: { '@id': 'https://www.millionspro.com/#website' },
+  };
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.millionspro.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.millionspro.com/blog' },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `https://www.millionspro.com/blog/${post.slug}` },
+    ],
   };
 
   return (
@@ -110,6 +124,10 @@ export default async function BlogPostPage({ params }: PageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
       <article>

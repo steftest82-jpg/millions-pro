@@ -13,7 +13,7 @@ import {
 } from '@/lib/keystatic';
 
 export const metadata: Metadata = {
-  title: 'Millions Pro -- Personal Finance Tips for Smart Money Moves',
+  title: 'Personal Finance Tips for Smart Money Moves',
   description:
     'Discover actionable personal finance tips, smart budgeting strategies, beginner investing guides, debt management advice, and profitable side hustle ideas. Your daily finance magazine by Marine Lafitte.',
 };
@@ -209,11 +209,11 @@ export default async function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-10">
         <nav
           aria-label="Article categories"
-          className="bg-white rounded-2xl shadow-soft-lg border border-primary/10 p-2 flex items-center gap-1.5 overflow-x-auto scrollbar-hide"
+          className="bg-white rounded-2xl shadow-soft-lg border border-primary/10 p-2 flex items-center gap-1 sm:gap-1.5 overflow-x-auto scrollbar-hide -mx-4 sm:mx-0 rounded-none sm:rounded-2xl"
         >
           <Link
             href="/blog"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-sans font-medium text-foreground/65 hover:text-primary hover:bg-primary/[0.05] transition-all duration-200 whitespace-nowrap flex-shrink-0"
+            className="flex items-center gap-2 px-3 sm:px-4 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm font-sans font-medium text-foreground/65 hover:text-primary hover:bg-primary/[0.05] active:bg-primary/[0.08] transition-all duration-200 whitespace-nowrap flex-shrink-0 min-h-[44px] items-center"
           >
             All Topics
           </Link>
@@ -221,7 +221,7 @@ export default async function HomePage() {
             <Link
               key={cat.slug}
               href={`/category/${cat.slug}`}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-sans font-medium text-foreground/65 hover:text-primary hover:bg-primary/[0.05] transition-all duration-200 whitespace-nowrap flex-shrink-0"
+              className="flex items-center gap-2 px-3 sm:px-4 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm font-sans font-medium text-foreground/65 hover:text-primary hover:bg-primary/[0.05] active:bg-primary/[0.08] transition-all duration-200 whitespace-nowrap flex-shrink-0 min-h-[44px] items-center"
             >
               {cat.name}
             </Link>

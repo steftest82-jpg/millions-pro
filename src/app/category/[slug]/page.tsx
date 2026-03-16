@@ -32,6 +32,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `${category.name} | Millions Pro`,
       description: category.description,
     },
+    alternates: {
+      canonical: `/category/${params.slug}`,
+    },
   };
 }
 
