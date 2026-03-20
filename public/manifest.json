@@ -1,0 +1,19 @@
+{
+  "name": "Millions Pro — Your Daily Finance Magazine",
+  "short_name": "Millions Pro",
+  "description": "Practical personal finance tips, investing guides, and wealth-building strategies for everyday professionals.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B1120",
+  "theme_color": "#0B1120",
+  "orientation": "portrait-primary",
+  "categories": ["finance", "business", "education"],
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

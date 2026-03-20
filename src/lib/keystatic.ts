@@ -15,6 +15,7 @@ export interface PostFrontmatter {
   title: string;
   slug: string;
   publishedAt: string;
+  updatedAt: string;
   excerpt: string;
   coverImage: string;
   coverImageAlt: string;
@@ -126,6 +127,7 @@ export async function getAllPosts(): Promise<Post[]> {
           title: (data.title as string) || slug,
           slug,
           publishedAt: (data.publishedAt as string) || '2026-01-01',
+          updatedAt: (data.updatedAt as string) || (data.publishedAt as string) || '2026-01-01',
           excerpt: (data.excerpt as string) || '',
           coverImage: (data.coverImage as string) || 'https://picsum.photos/seed/default/1200/630',
           coverImageAlt: (data.coverImageAlt as string) || (data.title as string) || 'Blog post cover image',

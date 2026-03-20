@@ -1,5 +1,18 @@
 import type { Metadata } from 'next';
+import { Inter, Lora } from 'next/font/google';
 import './globals.css';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+const lora = Lora({
+  subsets: ['latin'],
+  variable: '--font-serif',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || 'https://millionspro.com'),
@@ -80,7 +93,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`scroll-smooth ${inter.variable} ${lora.variable}`}>
       <head>
         {/* Google Analytics Placeholder — replace GA_MEASUREMENT_ID with your real ID */}
         {process.env.NEXT_PUBLIC_GA_ID && (
@@ -106,6 +119,10 @@ export default function RootLayout({
         {/* Preconnect to image host */}
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="http://img.b2bpic.net" />
+        <link rel="dns-prefetch" href="http://img.b2bpic.net" />
+        {/* Web App Manifest */}
+        <link rel="manifest" href="/manifest.json" />
         {/* RSS Autodiscovery */}
         <link
           rel="alternate"
@@ -129,7 +146,12 @@ export default function RootLayout({
                     '@type': 'ImageObject',
                     url: 'https://www.millionspro.com/icon.png',
                   },
-                  sameAs: [],
+                  sameAs: [
+                    'https://twitter.com/millionspro',
+                    'https://www.linkedin.com/company/millionspro',
+                    'https://www.facebook.com/millionspro',
+                    'https://www.pinterest.com/millionspro',
+                  ],
                   description: 'Your Daily Finance Magazine for Smart Money Moves. Practical personal finance tips, investing guides, and wealth-building strategies.',
                 },
                 {

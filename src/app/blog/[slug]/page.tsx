@@ -79,14 +79,19 @@ export default async function BlogPostPage({ params }: PageProps) {
   const relatedPosts = await getRelatedPosts(post.slug, post.categories, 3);
 
   /* JSON-LD Structured Data */
-  const jsonLd = {
+  const plainText = post.content.replace(/<[^>]*>/g, '');
+  const wordCount = plainText.split(/\s+/).filter(Boolean).length;
+  const isHowTo = post.title.toLowerCase().startsWith('how to');
+
+  const jsonLd: Record<string, unknown> = {
     '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
+    '@type': isHowTo ? ['BlogPosting', 'HowTo'] : 'BlogPosting',
     headline: post.title,
+    name: post.title,
     description: post.excerpt,
     image: post.coverImage,
     datePublished: post.publishedAt,
-    dateModified: post.publishedAt,
+    dateModified: post.updatedAt || post.publishedAt,
     author: {
       '@type': 'Person',
       name: post.author,
@@ -104,9 +109,27 @@ export default async function BlogPostPage({ params }: PageProps) {
       '@type': 'WebPage',
       '@id': `https://www.millionspro.com/blog/${post.slug}`,
     },
-    wordCount: post.content.replace(/<[^>]*>/g, '').split(/\s+/).filter(Boolean).length,
+    wordCount,
+    timeRequired: `PT${post.readingTime}M`,
     keywords: [post.focusKeyword, ...post.categories.map((c) => formatCategoryName(c))].join(', '),
     isPartOf: { '@id': 'https://www.millionspro.com/#website' },
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '.key-takeaways', 'h2'],
+    },
+    ...(post.keyTakeaways.length > 0 && {
+      abstract: post.keyTakeaways.join(' '),
+    }),
+    ...(isHowTo && post.tableOfContents.length > 0 && {
+      step: post.tableOfContents
+        .filter((toc) => toc.heading.toLowerCase() !== 'frequently asked questions')
+        .map((toc, i) => ({
+          '@type': 'HowToStep',
+          position: i + 1,
+          name: toc.heading,
+          url: `https://www.millionspro.com/blog/${post.slug}#${toc.anchor}`,
+        })),
+    }),
   };
 
   const breadcrumbLd = {
@@ -119,6 +142,34 @@ export default async function BlogPostPage({ params }: PageProps) {
     ],
   };
 
+  /* FAQPage schema — extract Q&A pairs from article FAQ section */
+  const faqRegex = /<h3[^>]*>(.*?)<\/h3>\s*([\s\S]*?)(?=<h3|<h2|$)/gi;
+  const faqContent = post.content.match(/<h2[^>]*>.*?frequently asked questions.*?<\/h2>([\s\S]*)$/i)?.[1] || '';
+  const faqItems: { question: string; answer: string }[] = [];
+  let faqMatch;
+  while ((faqMatch = faqRegex.exec(faqContent)) !== null) {
+    const question = faqMatch[1].replace(/<[^>]*>/g, '').trim();
+    const answer = faqMatch[2].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (question && answer) {
+      faqItems.push({ question, answer });
+    }
+  }
+
+  const faqLd = faqItems.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      }
+    : null;
+
   return (
     <>
       <script
@@ -129,6 +180,12 @@ export default async function BlogPostPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
+      {faqLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        />
+      )}
 
       <article>
         {/* ============================================================

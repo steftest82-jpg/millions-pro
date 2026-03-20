@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import PostCard from '@/components/PostCard';
 import type { FC } from 'react';
@@ -66,6 +66,36 @@ const BlogListingClient: FC<BlogListingClientProps> = ({ posts, categories }) =>
     (currentPage - 1) * POSTS_PER_PAGE,
     currentPage * POSTS_PER_PAGE
   );
+
+  /* ---- SEO: rel prev/next + noindex for paginated pages ---- */
+  useEffect(() => {
+    const existing = document.querySelectorAll('link[data-pagination]');
+    existing.forEach((el) => el.remove());
+    const existingMeta = document.querySelector('meta[data-pagination-robots]');
+    if (existingMeta) existingMeta.remove();
+
+    if (currentPage > 1) {
+      const prev = document.createElement('link');
+      prev.rel = 'prev';
+      prev.href = currentPage === 2 ? '/blog' : `/blog?page=${currentPage - 1}`;
+      prev.setAttribute('data-pagination', 'true');
+      document.head.appendChild(prev);
+
+      const noindex = document.createElement('meta');
+      noindex.name = 'robots';
+      noindex.content = 'noindex, follow';
+      noindex.setAttribute('data-pagination-robots', 'true');
+      document.head.appendChild(noindex);
+    }
+
+    if (currentPage < totalPages) {
+      const next = document.createElement('link');
+      next.rel = 'next';
+      next.href = `/blog?page=${currentPage + 1}`;
+      next.setAttribute('data-pagination', 'true');
+      document.head.appendChild(next);
+    }
+  }, [currentPage, totalPages]);
 
   const handleCategoryChange = (slug: string) => {
     setActiveCategory(slug);

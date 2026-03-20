@@ -47,8 +47,46 @@ export default async function CategoryPage({ params }: PageProps) {
 
   const posts = await getPostsByCategory(params.slug);
 
+  /* CollectionPage + ItemList JSON-LD for category */
+  const categoryLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: category.name,
+    description: category.description,
+    url: `https://www.millionspro.com/category/${params.slug}`,
+    isPartOf: { '@id': 'https://www.millionspro.com/#website' },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: posts.length,
+      itemListElement: posts.slice(0, 30).map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `https://www.millionspro.com/blog/${p.slug}`,
+        name: p.title,
+      })),
+    },
+  };
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.millionspro.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.millionspro.com/blog' },
+      { '@type': 'ListItem', position: 3, name: category.name, item: `https://www.millionspro.com/category/${params.slug}` },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(categoryLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       {/* ============================================================
           CATEGORY HEADER
           ============================================================ */}
@@ -169,6 +207,36 @@ export default async function CategoryPage({ params }: PageProps) {
             </Link>
           </div>
         )}
+      </section>
+
+      {/* ============================================================
+          SEO RICH DESCRIPTION — unique content per category
+          ============================================================ */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="prose prose-lg prose-primary max-w-none text-foreground/70">
+          <h2 className="text-xl font-bold text-foreground mb-4">
+            About {category.name}
+          </h2>
+          <p>{category.description}</p>
+          <p>
+            At Millions Pro, our {category.name.toLowerCase()} articles are written by Marine Lafitte
+            and cover actionable strategies you can implement today. Whether you are just getting started
+            or looking for advanced techniques, our guides break down complex topics into clear, practical steps.
+          </p>
+          <p>
+            Browse {posts.length} expert article{posts.length !== 1 ? 's' : ''} in this category, or explore
+            our other topics including{' '}
+            {ALL_CATEGORIES.filter((c) => c.slug !== params.slug)
+              .map((c, i, arr) => (
+                <span key={c.slug}>
+                  <Link href={`/category/${c.slug}`} className="text-primary hover:text-accent transition-colors">
+                    {c.name}
+                  </Link>
+                  {i < arr.length - 1 ? ', ' : '.'}
+                </span>
+              ))}
+          </p>
+        </div>
       </section>
     </>
   );

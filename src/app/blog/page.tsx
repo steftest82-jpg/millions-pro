@@ -39,8 +39,31 @@ export default async function BlogListingPage() {
     categories: p.categories,
   }));
 
+  /* ItemList JSON-LD for blog listing */
+  const itemListLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Blog — Millions Pro',
+    description: 'Browse all articles on Millions Pro covering smart budgeting strategies, beginner investing, debt management, profitable side hustles, and financial wellness.',
+    url: 'https://www.millionspro.com/blog',
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: serializedPosts.length,
+      itemListElement: serializedPosts.slice(0, 30).map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `https://www.millionspro.com/blog/${p.slug}`,
+        name: p.title,
+      })),
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
+      />
       {/* ============================================================
           PAGE HEADER
           ============================================================ */}
