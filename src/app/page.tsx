@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import PostCard from '@/components/PostCard';
-import AuthorCard from '@/components/AuthorCard';
 import NewsletterCTA from '@/components/NewsletterCTA';
 import {
   getAllPosts,
@@ -18,29 +17,14 @@ export const metadata: Metadata = {
     'Discover actionable personal finance tips, smart budgeting strategies, beginner investing guides, debt management advice, and profitable side hustle ideas. Your daily finance magazine by Marine Lafitte.',
 };
 
-/* ---------- category color mapping ---------- */
+/* ---------- category accent colors ---------- */
 
-const CATEGORY_COLORS: Record<string, { gradient: string; border: string }> = {
-  'smart-budgeting-and-saving': {
-    gradient: 'from-emerald-500/10 to-emerald-500/[0.02]',
-    border: 'hover:border-emerald-300/40',
-  },
-  'beginner-investing-tips': {
-    gradient: 'from-blue-500/10 to-blue-500/[0.02]',
-    border: 'hover:border-blue-300/40',
-  },
-  'debt-management': {
-    gradient: 'from-amber-500/10 to-amber-500/[0.02]',
-    border: 'hover:border-amber-300/40',
-  },
-  'side-hustles-and-income-growth': {
-    gradient: 'from-violet-500/10 to-violet-500/[0.02]',
-    border: 'hover:border-violet-300/40',
-  },
-  'financial-wellness': {
-    gradient: 'from-rose-500/10 to-rose-500/[0.02]',
-    border: 'hover:border-rose-300/40',
-  },
+const CATEGORY_ACCENT: Record<string, string> = {
+  'smart-budgeting-and-saving': 'emerald',
+  'beginner-investing-tips': 'blue',
+  'debt-management': 'amber',
+  'side-hustles-and-income-growth': 'violet',
+  'financial-wellness': 'rose',
 };
 
 /* ---------- helpers ---------- */
@@ -64,24 +48,20 @@ function authorInitials(name: string): string {
 export default async function HomePage() {
   const allPosts = await getAllPosts();
 
-  /* Fetch posts for each category (already sorted most recent first) */
   const categoryPostsMap: Record<string, Awaited<ReturnType<typeof getPostsByCategory>>> = {};
   for (const cat of ALL_CATEGORIES) {
     categoryPostsMap[cat.slug] = (await getPostsByCategory(cat.slug)).slice(0, 10);
   }
 
-  /* Most recent post across all categories for the hero */
   const heroPost = allPosts[0] ?? null;
+  const spotlightPosts = allPosts.slice(1, 4);
+  const latestPosts = allPosts.filter((p) => p.slug !== heroPost?.slug && !spotlightPosts.find((s) => s.slug === p.slug)).slice(0, 6);
 
-  /* Latest 6 articles (skip the hero post) */
-  const latestPosts = allPosts.filter((p) => p.slug !== heroPost?.slug).slice(0, 6);
-
-  /* Track slugs already shown in hero + latest to avoid duplicates in category sections */
   const shownSlugs = new Set<string>();
   if (heroPost) shownSlugs.add(heroPost.slug);
+  spotlightPosts.forEach((p) => shownSlugs.add(p.slug));
   latestPosts.forEach((p) => shownSlugs.add(p.slug));
 
-  /* Pre-compute deduplicated category posts so JSX doesn't mutate state during render */
   const dedupedCategoryPosts: Record<string, Awaited<ReturnType<typeof getPostsByCategory>>> = {};
   for (const cat of ALL_CATEGORIES) {
     const posts = (categoryPostsMap[cat.slug] || []).filter((p) => !shownSlugs.has(p.slug));
@@ -92,400 +72,379 @@ export default async function HomePage() {
   return (
     <>
       {/* ============================================================
-          HERO -- Featured Article
+          HERO — Full-width cinematic featured article
           ============================================================ */}
       {heroPost && (
-        <section className="relative bg-gradient-hero overflow-hidden">
-          {/* Decorative background circles */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-            <div className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-accent/10 blur-3xl" />
-            <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full bg-primary/15 blur-3xl" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-secondary/8 blur-3xl" />
-          </div>
+        <section className="relative min-h-[75vh] lg:min-h-[80vh] flex items-end overflow-hidden">
+          {/* Background image */}
+          <Image
+            src={heroPost.coverImage}
+            alt={heroPost.coverImageAlt}
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
 
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 lg:py-28">
-            {/* Eyebrow */}
-            <div className="text-center mb-10 animate-fade-in">
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-accent text-xs font-sans font-semibold uppercase tracking-[0.2em]">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-soft" />
-                Featured Article
-              </span>
-            </div>
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 lg:pb-24">
+            <div className="max-w-3xl">
+              <Link
+                href={`/category/${primaryCategory(heroPost.categories).slug}`}
+                className="inline-block mb-5 px-4 py-1.5 text-[11px] font-sans font-bold uppercase tracking-[0.2em] text-white bg-white/15 backdrop-blur-sm border border-white/20 rounded-full hover:bg-white/25 transition-all duration-300"
+              >
+                {primaryCategory(heroPost.categories).name}
+              </Link>
 
-            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-              {/* Text Column */}
-              <div className="order-2 lg:order-1 animate-fade-in-up">
-                <Link
-                  href={`/category/${primaryCategory(heroPost.categories).slug}`}
-                  className="inline-block mb-5 text-xs font-sans font-bold uppercase tracking-[0.15em] text-accent/90 hover:text-white transition-colors duration-200"
-                >
-                  {primaryCategory(heroPost.categories).name}
-                </Link>
-
-                <h1 className="text-3xl sm:text-4xl md:text-display-sm lg:text-display-md font-bold text-white mb-6 leading-tight text-balance">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white mb-5 leading-[1.1] text-balance">
+                <Link href={`/blog/${heroPost.slug}`} className="hover:opacity-90 transition-opacity duration-300">
                   {heroPost.title}
-                </h1>
-
-                <p className="text-base sm:text-lg text-blue-100/80 mb-8 leading-relaxed max-w-xl">
-                  {heroPost.excerpt}
-                </p>
-
-                {/* Author row */}
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center text-white font-bold font-sans text-sm shadow-lg">
-                    {authorInitials(heroPost.author)}
-                  </div>
-                  <div>
-                    <p className="text-sm font-sans font-semibold text-white">
-                      {heroPost.author}
-                    </p>
-                    <p className="text-xs font-sans text-blue-200/70">
-                      {formatDate(heroPost.publishedAt)} -- {heroPost.readingTime} min read
-                    </p>
-                  </div>
-                </div>
-
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Link
-                    href={`/blog/${heroPost.slug}`}
-                    className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-accent text-foreground font-sans font-semibold rounded-xl hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl group"
-                  >
-                    Read Full Article
-                    <svg
-                      className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2.5}
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                    </svg>
-                  </Link>
-                  <Link
-                    href="/blog"
-                    className="inline-flex items-center justify-center px-7 py-3.5 border-2 border-white/20 text-white font-sans font-semibold rounded-xl hover:bg-white/10 hover:border-white/40 transition-all duration-300"
-                  >
-                    Browse All Articles
-                  </Link>
-                </div>
-              </div>
-
-              {/* Image Column */}
-              <div className="order-1 lg:order-2 animate-fade-in">
-                <Link href={`/blog/${heroPost.slug}`} className="block group">
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
-                    <Image
-                      src={heroPost.coverImage}
-                      alt={heroPost.coverImageAlt}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      priority
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 via-transparent to-transparent opacity-60" />
-                    {/* Reading time badge */}
-                    <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm text-foreground">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span className="text-xs font-sans font-semibold">{heroPost.readingTime} min</span>
-                    </div>
-                  </div>
                 </Link>
+              </h1>
+
+              <p className="text-base sm:text-lg text-white/70 mb-8 leading-relaxed max-w-2xl line-clamp-3">
+                {heroPost.excerpt}
+              </p>
+
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full border-2 border-white/30 flex items-center justify-center text-white font-serif font-bold text-sm">
+                  {authorInitials(heroPost.author)}
+                </div>
+                <div>
+                  <p className="text-sm font-sans font-semibold text-white">{heroPost.author}</p>
+                  <p className="text-xs font-sans text-white/50">{formatDate(heroPost.publishedAt)} &middot; {heroPost.readingTime} min read</p>
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Bottom gradient fade */}
-          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
         </section>
       )}
 
       {/* ============================================================
-          CATEGORY NAV TABS
+          SPOTLIGHT — 3 featured articles in editorial strip
           ============================================================ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-10">
-        <nav
-          aria-label="Article categories"
-          className="bg-white rounded-2xl shadow-soft-lg border border-primary/10 p-2 flex items-center gap-1 sm:gap-1.5 overflow-x-auto scrollbar-hide -mx-4 sm:mx-0 rounded-none sm:rounded-2xl"
-        >
-          <Link
-            href="/blog"
-            className="flex items-center gap-2 px-3 sm:px-4 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm font-sans font-medium text-foreground/65 hover:text-primary hover:bg-primary/[0.05] active:bg-primary/[0.08] transition-all duration-200 whitespace-nowrap flex-shrink-0 min-h-[44px] items-center"
-          >
-            All Topics
-          </Link>
-          {ALL_CATEGORIES.map((cat) => (
-            <Link
-              key={cat.slug}
-              href={`/category/${cat.slug}`}
-              className="flex items-center gap-2 px-3 sm:px-4 py-3 sm:py-2.5 rounded-xl text-xs sm:text-sm font-sans font-medium text-foreground/65 hover:text-primary hover:bg-primary/[0.05] active:bg-primary/[0.08] transition-all duration-200 whitespace-nowrap flex-shrink-0 min-h-[44px] items-center"
-            >
-              {cat.name}
-            </Link>
-          ))}
-        </nav>
-      </section>
+      {spotlightPosts.length > 0 && (
+        <section className="bg-white border-b border-primary/[0.06]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-primary/[0.08]">
+              {spotlightPosts.map((post, i) => {
+                const cat = primaryCategory(post.categories);
+                return (
+                  <article key={post.slug} className="group">
+                    <Link href={`/blog/${post.slug}`} className="flex items-start gap-5 p-6 lg:p-8 hover:bg-primary/[0.02] transition-colors duration-300">
+                      <span className="text-4xl font-serif font-bold text-primary/15 leading-none flex-shrink-0 group-hover:text-primary/30 transition-colors duration-300">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <div className="min-w-0">
+                        <span className="text-[10px] font-sans font-bold uppercase tracking-[0.15em] text-primary/60 mb-2 block">
+                          {cat.name}
+                        </span>
+                        <h3 className="text-base font-serif font-bold text-foreground leading-snug group-hover:text-primary transition-colors duration-200 line-clamp-2 mb-1.5">
+                          {post.title}
+                        </h3>
+                        <p className="text-xs font-sans text-foreground/40">
+                          {formatDate(post.publishedAt)} &middot; {post.readingTime} min
+                        </p>
+                      </div>
+                    </Link>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ============================================================
-          LATEST ARTICLES GRID (6 most recent, excluding hero)
+          LATEST ARTICLES — Editorial grid
           ============================================================ */}
       {latestPosts.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <div className="flex items-end justify-between mb-10">
+          <div className="flex items-end justify-between mb-12">
             <div>
-              <span className="text-xs font-sans font-bold uppercase tracking-[0.2em] text-primary mb-2 block">
-                Latest Articles
-              </span>
-              <h2 className="text-display-sm sm:text-display-md font-bold text-foreground leading-tight">
-                Fresh Financial Insights
+              <p className="text-[11px] font-sans font-bold uppercase tracking-[0.25em] text-primary/60 mb-2">
+                Latest Stories
+              </p>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground">
+                Fresh From the Editor
               </h2>
             </div>
             <Link
               href="/blog"
-              className="hidden sm:inline-flex items-center gap-1.5 text-sm font-sans font-semibold text-secondary hover:text-primary transition-colors duration-200 group"
+              className="hidden sm:inline-flex items-center gap-1.5 text-sm font-sans font-medium text-foreground/50 hover:text-primary transition-colors duration-200 group"
             >
-              View All
-              <svg
-                className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              View all
+              <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
               </svg>
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-            {latestPosts.map((post, index) => {
-              const cat = primaryCategory(post.categories);
-              return (
-                <div
-                  key={post.slug}
-                  className="animate-fade-in-up"
-                  style={{ animationDelay: `${index * 80}ms`, animationFillMode: 'both' }}
-                >
-                  <PostCard
-                    slug={post.slug}
-                    title={post.title}
-                    excerpt={post.excerpt}
-                    coverImage={post.coverImage}
-                    coverImageAlt={post.coverImageAlt}
-                    category={cat.name}
-                    categorySlug={cat.slug}
-                    author={post.author}
-                    publishedAt={post.publishedAt}
-                    readingTime={post.readingTime}
-                  />
-                </div>
-              );
-            })}
+          {/* First row: 1 large + 2 stacked */}
+          <div className="grid lg:grid-cols-2 gap-8 mb-8">
+            {latestPosts[0] && (
+              <article className="group">
+                <Link href={`/blog/${latestPosts[0].slug}`} className="block">
+                  <div className="relative aspect-[3/2] rounded-xl overflow-hidden mb-5">
+                    <Image
+                      src={latestPosts[0].coverImage}
+                      alt={latestPosts[0].coverImageAlt}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </div>
+                  <span className="text-[10px] font-sans font-bold uppercase tracking-[0.15em] text-primary/60 mb-2 block">
+                    {primaryCategory(latestPosts[0].categories).name}
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-serif font-bold text-foreground leading-snug group-hover:text-primary transition-colors duration-200 mb-3 line-clamp-2">
+                    {latestPosts[0].title}
+                  </h3>
+                  <p className="text-sm text-foreground/55 leading-relaxed line-clamp-2 mb-4">
+                    {latestPosts[0].excerpt}
+                  </p>
+                  <p className="text-xs font-sans text-foreground/35">
+                    {latestPosts[0].author} &middot; {formatDate(latestPosts[0].publishedAt)}
+                  </p>
+                </Link>
+              </article>
+            )}
+
+            <div className="flex flex-col gap-8">
+              {latestPosts.slice(1, 3).map((post) => {
+                const cat = primaryCategory(post.categories);
+                return (
+                  <article key={post.slug} className="group">
+                    <Link href={`/blog/${post.slug}`} className="flex gap-5">
+                      <div className="relative w-40 h-28 sm:w-48 sm:h-32 rounded-lg overflow-hidden flex-shrink-0">
+                        <Image
+                          src={post.coverImage}
+                          alt={post.coverImageAlt}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          sizes="200px"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0 flex flex-col justify-center">
+                        <span className="text-[10px] font-sans font-bold uppercase tracking-[0.12em] text-primary/60 mb-1.5">
+                          {cat.name}
+                        </span>
+                        <h3 className="text-base sm:text-lg font-serif font-bold text-foreground leading-snug group-hover:text-primary transition-colors duration-200 line-clamp-2 mb-2">
+                          {post.title}
+                        </h3>
+                        <p className="text-xs font-sans text-foreground/35">
+                          {post.author} &middot; {formatDate(post.publishedAt)}
+                        </p>
+                      </div>
+                    </Link>
+                  </article>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Mobile View All */}
-          <div className="mt-10 text-center sm:hidden">
-            <Link href="/blog" className="btn-secondary">
-              View All Articles
-            </Link>
-          </div>
+          {/* Second row: 3 equal cards */}
+          {latestPosts.length > 3 && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+              {latestPosts.slice(3, 6).map((post, index) => {
+                const cat = primaryCategory(post.categories);
+                return (
+                  <div
+                    key={post.slug}
+                    className="animate-fade-in-up"
+                    style={{ animationDelay: `${index * 80}ms`, animationFillMode: 'both' }}
+                  >
+                    <PostCard
+                      slug={post.slug}
+                      title={post.title}
+                      excerpt={post.excerpt}
+                      coverImage={post.coverImage}
+                      coverImageAlt={post.coverImageAlt}
+                      category={cat.name}
+                      categorySlug={cat.slug}
+                      author={post.author}
+                      publishedAt={post.publishedAt}
+                      readingTime={post.readingTime}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </section>
       )}
 
       {/* ============================================================
-          CATEGORY SECTIONS (5 categories, up to 10 articles each)
+          DIVIDER — Newsletter CTA
           ============================================================ */}
-      {ALL_CATEGORIES.map((cat) => {
+      <NewsletterCTA />
+
+      {/* ============================================================
+          CATEGORY SECTIONS — Editorial magazine layout
+          ============================================================ */}
+      {ALL_CATEGORIES.map((cat, catIndex) => {
         const posts = dedupedCategoryPosts[cat.slug] || [];
         if (posts.length === 0) return null;
 
         const featured = posts[0];
-        const remaining = posts.slice(1);
+        const remaining = posts.slice(1, 6);
         const featuredCat = primaryCategory(featured.categories);
-        const colors = CATEGORY_COLORS[cat.slug] || {
-          gradient: 'from-gray-500/10 to-gray-500/[0.02]',
-          border: 'hover:border-gray-300/40',
-        };
+        const isEven = catIndex % 2 === 0;
 
         return (
           <section
             key={cat.slug}
-            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 border-t border-primary/[0.06]"
+            className={`py-16 sm:py-20 ${isEven ? 'bg-white' : 'bg-background'}`}
           >
-            {/* Section header */}
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <span className="text-xs font-sans font-bold uppercase tracking-[0.2em] text-primary mb-2 block">
-                  {cat.name}
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground leading-tight">
-                  {cat.name}
-                </h2>
-              </div>
-              <Link
-                href={`/category/${cat.slug}`}
-                className="hidden sm:inline-flex items-center gap-1.5 text-sm font-sans font-semibold text-secondary hover:text-primary transition-colors duration-200 group"
-              >
-                View All
-                <svg
-                  className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-              </Link>
-            </div>
-
-            <div className="grid lg:grid-cols-12 gap-8">
-              {/* Featured article (large) */}
-              <div className="lg:col-span-7">
-                <article className="card group h-full flex flex-col">
-                  <Link href={`/blog/${featured.slug}`} className="block flex-1 flex flex-col">
-                    <div className="relative aspect-[16/9] overflow-hidden">
-                      <Image
-                        src={featured.coverImage}
-                        alt={featured.coverImageAlt}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                        sizes="(max-width: 768px) 100vw, 60vw"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-foreground shadow-sm">
-                        <svg className="w-3 h-3 text-foreground/50" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span className="text-[11px] font-sans font-semibold">{featured.readingTime} min</span>
-                      </div>
-                    </div>
-                    <div className="p-6 flex-1 flex flex-col">
-                      <div className="mb-3">
-                        <span className="badge badge-primary text-[11px]">{featuredCat.name}</span>
-                      </div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3 leading-snug group-hover:text-primary transition-colors duration-200 line-clamp-2">
-                        {featured.title}
-                      </h3>
-                      <p className="text-sm text-foreground/60 leading-relaxed mb-5 line-clamp-3 flex-1">
-                        {featured.excerpt}
-                      </p>
-                      <div className="flex items-center gap-2.5 pt-4 border-t border-primary/[0.06]">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold font-sans text-[10px] flex-shrink-0 shadow-sm">
-                          {authorInitials(featured.author)}
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-xs font-sans font-semibold text-foreground truncate">{featured.author}</p>
-                          <p className="text-[11px] font-sans text-foreground/45">{formatDate(featured.publishedAt)}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </article>
-              </div>
-
-              {/* Remaining articles (compact list) */}
-              {remaining.length > 0 && (
-                <div className="lg:col-span-5 flex flex-col gap-4">
-                  {remaining.map((post) => {
-                    const postCat = primaryCategory(post.categories);
-                    return (
-                      <article key={post.slug} className="group">
-                        <Link
-                          href={`/blog/${post.slug}`}
-                          className="flex gap-4 p-3 rounded-xl hover:bg-primary/[0.03] transition-colors duration-200"
-                        >
-                          <div className="relative w-24 h-24 sm:w-28 sm:h-20 rounded-lg overflow-hidden flex-shrink-0">
-                            <Image
-                              src={post.coverImage}
-                              alt={post.coverImageAlt}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-500"
-                              sizes="120px"
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0 flex flex-col justify-center">
-                            <span className="text-[10px] font-sans font-bold uppercase tracking-[0.12em] text-primary/70 mb-1">
-                              {postCat.name}
-                            </span>
-                            <h4 className="text-sm font-bold text-foreground leading-snug group-hover:text-primary transition-colors duration-200 line-clamp-2 mb-1.5">
-                              {post.title}
-                            </h4>
-                            <p className="text-[11px] font-sans text-foreground/45">
-                              {formatDate(post.publishedAt)} -- {post.readingTime} min read
-                            </p>
-                          </div>
-                        </Link>
-                      </article>
-                    );
-                  })}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              {/* Section header */}
+              <div className="flex items-end justify-between mb-12">
+                <div>
+                  <p className="text-[11px] font-sans font-bold uppercase tracking-[0.25em] text-primary/60 mb-2">
+                    {cat.name}
+                  </p>
+                  <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground">
+                    {cat.name}
+                  </h2>
                 </div>
-              )}
-            </div>
+                <Link
+                  href={`/category/${cat.slug}`}
+                  className="hidden sm:inline-flex items-center gap-1.5 text-sm font-sans font-medium text-foreground/50 hover:text-primary transition-colors duration-200 group"
+                >
+                  See all
+                  <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                  </svg>
+                </Link>
+              </div>
 
-            {/* Mobile View All for this category */}
-            <div className="mt-8 text-center sm:hidden">
-              <Link href={`/category/${cat.slug}`} className="btn-secondary text-sm">
-                View All {cat.name}
-              </Link>
+              <div className={`grid lg:grid-cols-12 gap-10 ${isEven ? '' : 'lg:direction-rtl'}`}>
+                {/* Featured article — large image card with overlay */}
+                <div className={`lg:col-span-7 ${!isEven ? 'lg:order-2' : ''}`}>
+                  <article className="group relative rounded-xl overflow-hidden">
+                    <Link href={`/blog/${featured.slug}`} className="block">
+                      <div className="relative aspect-[4/3]">
+                        <Image
+                          src={featured.coverImage}
+                          alt={featured.coverImageAlt}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                          sizes="(max-width: 1024px) 100vw, 58vw"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+                        <span className="inline-block mb-3 px-3 py-1 text-[10px] font-sans font-bold uppercase tracking-[0.15em] text-white bg-white/15 backdrop-blur-sm border border-white/20 rounded-full">
+                          {featuredCat.name}
+                        </span>
+                        <h3 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-white leading-snug mb-3 line-clamp-2 text-balance">
+                          {featured.title}
+                        </h3>
+                        <p className="text-sm text-white/60 leading-relaxed line-clamp-2 mb-4 max-w-lg hidden sm:block">
+                          {featured.excerpt}
+                        </p>
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center text-white font-serif font-bold text-[10px]">
+                            {authorInitials(featured.author)}
+                          </div>
+                          <div>
+                            <p className="text-xs font-sans font-medium text-white/80">{featured.author}</p>
+                            <p className="text-[11px] font-sans text-white/40">{formatDate(featured.publishedAt)} &middot; {featured.readingTime} min</p>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </article>
+                </div>
+
+                {/* Remaining articles — compact list */}
+                {remaining.length > 0 && (
+                  <div className={`lg:col-span-5 ${!isEven ? 'lg:order-1' : ''}`}>
+                    <div className="flex flex-col divide-y divide-primary/[0.06]">
+                      {remaining.map((post) => {
+                        const postCat = primaryCategory(post.categories);
+                        return (
+                          <article key={post.slug} className="group py-5 first:pt-0 last:pb-0">
+                            <Link href={`/blog/${post.slug}`} className="flex gap-4">
+                              <div className="relative w-24 h-20 sm:w-28 sm:h-20 rounded-lg overflow-hidden flex-shrink-0">
+                                <Image
+                                  src={post.coverImage}
+                                  alt={post.coverImageAlt}
+                                  fill
+                                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                  sizes="120px"
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0 flex flex-col justify-center">
+                                <h4 className="text-sm font-serif font-bold text-foreground leading-snug group-hover:text-primary transition-colors duration-200 line-clamp-2 mb-1.5">
+                                  {post.title}
+                                </h4>
+                                <p className="text-[11px] font-sans text-foreground/40">
+                                  {formatDate(post.publishedAt)} &middot; {post.readingTime} min
+                                </p>
+                              </div>
+                            </Link>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-8 text-center sm:hidden">
+                <Link href={`/category/${cat.slug}`} className="btn-secondary text-sm">
+                  View All {cat.name}
+                </Link>
+              </div>
             </div>
           </section>
         );
       })}
 
       {/* ============================================================
-          NEWSLETTER CTA
-          ============================================================ */}
-      <NewsletterCTA />
-
-      {/* ============================================================
-          BROWSE ALL TOPICS -- Category Cards
+          BROWSE ALL TOPICS — Minimal cards
           ============================================================ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-        <div className="text-center mb-12">
-          <span className="text-xs font-sans font-bold uppercase tracking-[0.2em] text-primary mb-2 block">
-            Browse All Topics
-          </span>
-          <h2 className="text-display-sm sm:text-display-md font-bold text-foreground mb-4">
+        <div className="text-center mb-14">
+          <p className="text-[11px] font-sans font-bold uppercase tracking-[0.25em] text-primary/60 mb-2">
+            Explore
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground mb-3">
             Dive Into a Topic
           </h2>
-          <p className="text-foreground/65 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-foreground/50 max-w-xl mx-auto text-sm leading-relaxed">
             Whether you&apos;re just starting your financial journey or looking to level up, we&apos;ve got expert-driven content tailored to your goals.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {ALL_CATEGORIES.map((topic) => {
-            const colors = CATEGORY_COLORS[topic.slug] || {
-              gradient: 'from-gray-500/10 to-gray-500/[0.02]',
-              border: 'hover:border-gray-300/40',
-            };
             const articleCount = categoryPostsMap[topic.slug]?.length || 0;
 
             return (
               <Link
                 key={topic.slug}
                 href={`/category/${topic.slug}`}
-                className={`group relative bg-gradient-to-b ${colors.gradient} rounded-2xl p-7 border border-primary/10 ${colors.border} hover:shadow-soft-lg transition-all duration-300`}
+                className="group relative p-7 rounded-xl border border-primary/10 hover:border-primary/25 hover:shadow-soft-lg bg-white transition-all duration-300"
               >
-                <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-200">
+                <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-200">
                   {topic.name}
                 </h3>
-                <p className="text-sm text-foreground/60 leading-relaxed mb-4">
+                <p className="text-sm text-foreground/50 leading-relaxed mb-4">
                   {topic.description}
                 </p>
-                <span className="text-xs font-sans font-semibold text-primary/70">
-                  {articleCount} {articleCount === 1 ? 'article' : 'articles'}
-                </span>
-                <div className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-1 group-hover:translate-x-0">
-                  <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                  </svg>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-sans font-semibold text-primary/50">
+                    {articleCount} {articleCount === 1 ? 'article' : 'articles'}
+                  </span>
+                  <div className="w-7 h-7 rounded-full border border-primary/15 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-1 group-hover:translate-x-0">
+                    <svg className="w-3.5 h-3.5 text-primary" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                  </div>
                 </div>
               </Link>
             );
@@ -494,26 +453,18 @@ export default async function HomePage() {
       </section>
 
       {/* ============================================================
-          ABOUT THE AUTHOR
-          ============================================================ */}
-      <section className="bg-white border-y border-primary/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <div className="max-w-4xl mx-auto">
-            <AuthorCard variant="full" />
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================
           FINAL CTA
           ============================================================ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-        <div className="text-center">
-          <h2 className="text-display-sm font-bold text-foreground mb-4">
+      <section className="border-t border-primary/[0.06]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center">
+          <p className="text-[11px] font-sans font-bold uppercase tracking-[0.3em] text-primary/50 mb-4">
+            Start Today
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-foreground mb-5">
             Ready to Transform Your Finances?
           </h2>
-          <p className="text-foreground/65 max-w-xl mx-auto mb-8 leading-relaxed">
-            Join thousands of readers making smarter money decisions every day. Start with our most popular articles.
+          <p className="text-foreground/50 max-w-lg mx-auto mb-10 leading-relaxed">
+            Join thousands of readers making smarter money decisions every day.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/blog" className="btn-primary text-base px-8 py-4">

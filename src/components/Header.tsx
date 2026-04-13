@@ -58,13 +58,14 @@ const Header: FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-18">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0" aria-label="Millions Pro Home">
-            <div className="w-9 h-9 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-soft group-hover:shadow-soft-lg transition-shadow duration-300">
-              <span className="text-white font-bold font-sans text-sm leading-none">M</span>
+          <Link href="/" className="flex items-center gap-3 group flex-shrink-0" aria-label="Millions Pro Home">
+            <div className="relative w-9 h-9 flex items-center justify-center flex-shrink-0">
+              <div className="absolute inset-0 border-2 border-foreground/80 rounded-full group-hover:border-primary transition-colors duration-300" />
+              <span className="text-foreground/90 font-serif font-bold text-lg leading-none group-hover:text-primary transition-colors duration-300">$</span>
             </div>
-            <div className="hidden sm:flex items-baseline gap-0.5">
-              <span className="text-xl font-bold text-foreground tracking-tight">Millions</span>
-              <span className="text-xl font-bold text-primary tracking-tight">Pro</span>
+            <div className="hidden sm:block">
+              <span className="text-xl font-serif font-bold tracking-wide text-foreground uppercase" style={{ letterSpacing: '0.15em' }}>Millions</span>
+              <span className="text-[10px] font-sans font-bold tracking-[0.3em] text-primary uppercase ml-0.5">PRO</span>
             </div>
           </Link>
 
@@ -208,10 +209,11 @@ const Header: FC = () => {
           <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl z-[70] lg:hidden animate-slide-in-right overflow-y-auto">
             <div className="flex items-center justify-between px-5 py-4 border-b border-primary/10">
               <Link href="/" className="flex items-center gap-2" onClick={closeMobile}>
-                <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold font-sans text-xs">M</span>
+                <div className="relative w-8 h-8 flex items-center justify-center">
+                  <div className="absolute inset-0 border-2 border-foreground/80 rounded-full" />
+                  <span className="text-foreground/90 font-serif font-bold text-base leading-none">$</span>
                 </div>
-                <span className="text-lg font-bold text-foreground">Millions<span className="text-primary">Pro</span></span>
+                <span className="text-lg font-serif font-bold tracking-wide text-foreground uppercase" style={{ letterSpacing: '0.12em' }}>Millions<span className="text-[9px] font-sans font-bold tracking-[0.25em] text-primary uppercase ml-0.5">PRO</span></span>
               </Link>
               <button
                 type="button"

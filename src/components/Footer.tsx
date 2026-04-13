@@ -24,13 +24,14 @@ const Footer: FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Column 1 — Brand + Newsletter */}
           <div className="lg:col-span-4">
-            <Link href="/" className="flex items-center gap-2.5 mb-5">
-              <div className="w-9 h-9 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold font-sans text-sm">M</span>
+            <Link href="/" className="flex items-center gap-3 mb-5">
+              <div className="relative w-9 h-9 flex items-center justify-center flex-shrink-0">
+                <div className="absolute inset-0 border-2 border-white/60 rounded-full" />
+                <span className="text-white font-serif font-bold text-lg leading-none">$</span>
               </div>
               <div>
-                <span className="text-xl font-bold text-white">Millions</span>
-                <span className="text-xl font-bold text-accent">Pro</span>
+                <span className="text-xl font-serif font-bold tracking-wide text-white uppercase" style={{ letterSpacing: '0.15em' }}>Millions</span>
+                <span className="text-[10px] font-sans font-bold tracking-[0.3em] text-accent uppercase ml-0.5">PRO</span>
               </div>
             </Link>
 
